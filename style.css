@@ -1,0 +1,124 @@
+/* ====== ESTILOS GENERALES DEL BODY ====== */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif; /* Tipografía */
+  background: #000; /* Fondo negro */
+  color: #fff; /* Texto blanco */
+  display: flex; /* Centrar contenido con flexbox */
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupa toda la pantalla */
+}
+
+/* ====== CONTENEDOR PRINCIPAL DEL PLAYER ====== */
+.player {
+  background: #1a1a1a; /* Fondo negro más claro para contraste */
+  padding: 25px; /* Espaciado interno */
+  border-radius: 15px; /* Bordes redondeados */
+  width: 350px; /* Ancho fijo */
+  box-shadow: 0 4px 20px rgba(255,0,0,0.4); /* Sombra roja */
+  text-align: center; /* Centrar todo el contenido */
+}
+
+/* ====== INFORMACIÓN DE LA CANCIÓN ====== */
+.song-info {
+  margin-bottom: 20px;
+}
+
+.song-info h2 {
+  font-size: 20px;
+  margin: 0;
+  color: #fff; /* Nombre de la canción en blanco */
+}
+
+.song-info p {
+  font-size: 14px;
+  color: #ff4d4d; /* Autor en rojo suave */
+  margin: 5px 0 0;
+}
+
+/* ====== CONTROLES DE REPRODUCCIÓN ====== */
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
+}
+
+.controls button {
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  color: #ccc; /* Color gris por defecto */
+  font-size: 28px; /* Tamaño de iconos */
+  margin: 0 10px;
+  cursor: pointer;
+  transition: color 0.2s; /* Animación al pasar el mouse */
+  display: flex;
+}
+
+.controls button:hover {
+  color: #ff0000; /* Rojo intenso al pasar el mouse */
+}
+
+/* ====== BARRA DE PROGRESO ====== */
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #ccc; /* Texto gris */
+}
+
+.progress input[type="range"] {
+  flex: 1;
+  margin: 0 10px;
+  accent-color: #ff0000; /* Barra roja */
+}
+
+/* ====== CONTROL DE VOLUMEN ====== */
+.volume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.volume button {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.volume button:hover {
+  color: #ff0000; /* Rojo al pasar el mouse */
+}
+
+.volume input[type="range"] {
+  width: 60%;
+  accent-color: #ff0000; /* Barra roja */
+}
+
+/* ====== BOTÓN ACTIVADO (REPEAT, ETC.) ====== */
+.btn-activated {
+  color: #ff0000 !important; /* Rojo cuando está activo */
+}
+
+/* ====== CARÁTULA DE LA CANCIÓN ====== */
+.caratula {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.caratula img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 15px rgba(255,0,0,0.5); /* Sombra roja */
+}
+
+
+
+
