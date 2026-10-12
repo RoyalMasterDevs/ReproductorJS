@@ -19,15 +19,16 @@ let repeatSong = false;
 
 const songs = [ 
     {
-        name: "La Voz de tus Sentidos",
-        author: "Jannine Rada",
-        path: "./songs/La Voz de tus Sentidos - Jannine rada.mp3",
-    }
-    //   {
-    //     name: "Jazzy Abstract Beat",
-    //     author: "Coma Media",
-    //     path: "./assets/songs/Coma Media - Jazzy Abstract Beat.mp3",
-    //   },
+        name: "Bruised And Bloodied",
+        author: "Seether",
+        path: "./songs/Seether - Bruised_And_Bloodied.mp3",
+
+    },
+      {
+        name: "La Culpa al viento",
+        author: "Los Antiguos",
+        path: "./songs/Los Antiguos - La_Culpa_ Al_Viento.mp3"
+      }
     //   {
     //     name: "Sexy Fashion Beats",
     //     author: "Coma Media",

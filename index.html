@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Música</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom range styling for smooth aesthetic sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            border-radius: 9999px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+            transition: transform 0.15s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .btn-activated {
+            color: #ec4899 !important;
+            text-shadow: 0 0 12px rgba(236, 72, 153, 0.6);
+        }
+        .disc-spin {
+            animation: spin 20s linear infinite;
+        }
+        .disc-paused {
+            animation-play-state: paused;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 sm:p-6 font-sans relative overflow-hidden">
+
+    <!-- Background Decorative Glows -->
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-purple-600/30 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-pink-600/30 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <main class="relative w-full max-w-md bg-slate-900/60 backdrop-blur-2xl border border-slate-700/50 rounded-3xl p-6 sm:p-8 shadow-2xl flex flex-col items-center">
+        
+        <!-- Header -->
+        <header class="w-full flex justify-between items-center mb-6">
+            <span class="text-xs uppercase tracking-widest font-semibold text-slate-400">Reproduciendo Ahora</span>
+            <button class="text-slate-400 hover:text-white transition-colors text-lg" title="Lista de reproducción">
+                <i class="bi bi-music-note-list"></i>
+            </button>
+        </header>
+
+        <!-- Album Cover Art / Vinyl Visualizer -->
+        <div class="relative w-48 h-48 sm:w-56 sm:h-56 my-2 rounded-2xl overflow-hidden shadow-2xl border border-white/10 group">
+            <img id="album-cover" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=500&auto=format&fit=crop" 
+                 alt="Portada del Álbum" 
+                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
+            <!-- Animated CD Center Circle -->
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div id="vinyl-disc" class="w-16 h-16 rounded-full border-2 border-white/20 bg-slate-950/40 backdrop-blur-md flex items-center justify-center disc-spin disc-paused">
+                    <div class="w-5 h-5 rounded-full bg-slate-200 shadow-inner"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Song Title and Artist -->
+        <div class="text-center mt-6 mb-4 w-full">
+            <h1 id="song-name" class="text-xl sm:text-2xl font-bold text-white tracking-wide truncate">La Voz de tus Sentidos</h1>
+            <p id="song-author" class="text-sm font-medium text-slate-400 mt-1 truncate">Jannine Rada</p>
+        </div>
+
+        <!-- Progress Bar & Timers -->
+        <div class="w-full space-y-2 mb-6">
+            <input type="range" id="player-progress" min="0" value="0" class="w-full accent-pink-500 bg-slate-700/60 rounded-lg h-1.5 cursor-pointer">
+            <div class="flex justify-between text-xs font-semibold text-slate-400">
+                <span id="player-current-time">00:00</span>
+                <span id="player-duration">00:00</span>
+            </div>
+        </div>
+
+        <!-- Main Controls -->
+        <div class="flex items-center justify-between w-full px-4 mb-6">
+            <!-- Repeat Button -->
+            <button id="btn-repeat" class="text-slate-400 hover:text-white transition-all text-xl p-2 rounded-full hover:bg-white/5 active:scale-95" title="Repetir">
+                <i class="bi bi-repeat"></i>
+            </button>
+
+            <!-- Previous Song -->
+            <button id="btn-prev" class="text-slate-200 hover:text-white transition-all text-2xl p-2 rounded-full hover:bg-white/5 active:scale-95" title="Anterior">
+                <i class="bi bi-skip-start-fill"></i>
+            </button>
+
+            <!-- Play / Pause Button -->
+            <button id="btn-play" class="w-16 h-16 bg-gradient-to-tr from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all">
+                <i id="btn-play-icon" class="bi bi-play-fill text-3xl ml-1"></i>
+            </button>
+
+            <!-- Next Song -->
+            <button id="btn-next" class="text-slate-200 hover:text-white transition-all text-2xl p-2 rounded-full hover:bg-white/5 active:scale-95" title="Siguiente">
+                <i class="bi bi-skip-end-fill"></i>
+            </button>
+
+            <!-- Empty spacer for symmetry -->
+            <div class="w-9"></div>
+        </div>
+
+        <!-- Volume Control -->
+        <div class="w-full bg-slate-800/40 border border-slate-700/40 rounded-2xl p-3 flex items-center gap-3">
+            <button id="btn-volume" class="text-slate-400 hover:text-white transition-colors">
+                <i id="btn-volume-icon" class="bi bi-volume-up-fill text-lg"></i>
+            </button>
+            <input type="range" id="player-volume" min="0" max="1" step="0.01" value="0.8" class="w-full accent-purple-500 bg-slate-700/60 rounded-lg h-1.5 cursor-pointer">
+        </div>
+
+        <!-- Hidden Audio Element -->
+        <audio id="audio-player" class="hidden" preload="metadata"></audio>
+    </main>
+    <script src="./main.js"></script>
+</body>
+</html>
