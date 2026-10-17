@@ -1,4 +1,4 @@
-# Proyecto 2: Reproductor de Audio Web
+# Proyecto 1: Reproductor de Audio Web
 **Diplomado en Full Stack**
 
 ¡Bienvenido al Proyecto 2! En este reto aplicarás tus conocimientos de **HTML5, Tailwind CSS y JavaScript DOM** para construir una interfaz de reproductor de música moderna, completamente funcional y responsive.
